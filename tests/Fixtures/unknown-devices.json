@@ -1,0 +1,15 @@
+{
+    "status_code": 200,
+    "status_message": "OK",
+    "response": {
+        "Messages": [
+            "AF0B-EEFE4D5E-E445B2E9"
+        ],
+        "UnknownDevices": {
+            "AF0B-EEFE4D5E-E445B2E9": [
+                "foo",
+                "bar"
+            ]
+        }
+    }
+}
