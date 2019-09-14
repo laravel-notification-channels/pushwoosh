@@ -4,6 +4,7 @@ namespace NotificationChannels\Pushwoosh;
 
 use Illuminate\Support\Collection;
 use RuntimeException;
+use Throwable;
 
 /**
  * Exception thrown following communication failure with the Pushwoosh API.
@@ -17,7 +18,7 @@ class PushwooshException extends RuntimeException
      * @param \Throwable|null $previous
      * @return \NotificationChannels\Pushwoosh\PushwooshException
      */
-    public static function apiError($payload, $previous = null)
+    public static function apiError($payload, Throwable $previous = null)
     {
         return new static(sprintf('Pushwoosh API error: %s', $payload->status_message), 0, $previous);
     }
@@ -28,7 +29,7 @@ class PushwooshException extends RuntimeException
      * @param \Throwable|null $previous
      * @return \NotificationChannels\Pushwoosh\PushwooshException
      */
-    public static function failedTransmission($previous = null)
+    public static function failedTransmission(Throwable $previous = null)
     {
         return new static('Failed to create message(s)', 0, $previous);
     }
@@ -40,7 +41,7 @@ class PushwooshException extends RuntimeException
      * @param \Throwable|null $previous
      * @return \NotificationChannels\Pushwoosh\PushwooshException
      */
-    public static function unknownDevices($payload, $previous = null)
+    public static function unknownDevices($payload, Throwable $previous = null)
     {
         $devices = Collection::make($payload->response->UnknownDevices)->reduce(function ($carry, $devices) {
             return array_merge((array)$carry, $devices);

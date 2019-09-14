@@ -28,15 +28,12 @@ class PushwooshRecipient implements JsonSerializable
     /**
      * Set the device(s).
      *
-     * @param string $devices,...
+     * @param string ...$devices
      * @return $this
      */
-    public function device($devices)
+    public function device(string ...$devices)
     {
-        $this->devices = array_merge(
-            $this->devices, is_array($devices) ? $devices : func_get_args()
-        );
-
+        $this->devices = array_merge($this->devices, $devices);
         $this->users = [];
 
         return $this;
@@ -76,12 +73,11 @@ class PushwooshRecipient implements JsonSerializable
     /**
      * Set the platform(s).
      *
-     * @param string $platforms,...
+     * @param string ...$platforms
      * @return $this
      */
-    public function platform($platforms)
+    public function platform(string ...$platforms)
     {
-        $platforms = is_array($platforms) ? $platforms : func_get_args();
         $supported = static::getSupportedPlatforms();
 
         foreach ($platforms as $platform) {
@@ -100,16 +96,13 @@ class PushwooshRecipient implements JsonSerializable
     /**
      * Set the user(s).
      *
-     * @param string $users,...
+     * @param string ...$users
      * @return $this
      */
-    public function user($users)
+    public function user(string ...$users)
     {
         $this->devices = [];
-
-        $this->users = array_merge(
-            $this->users, is_array($users) ? $users : func_get_args()
-        );
+        $this->users = array_merge($this->users, $users);
 
         return $this;
     }
@@ -122,7 +115,7 @@ class PushwooshRecipient implements JsonSerializable
      * @param int $range
      * @return $this
      */
-    public function within($latitude, $longitude, $range)
+    public function within(float $latitude, float $longitude, int $range)
     {
         $this->geoZone = [
             'lat' => $latitude,

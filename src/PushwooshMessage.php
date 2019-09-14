@@ -27,7 +27,7 @@ class PushwooshMessage implements JsonSerializable
      * @param string $content
      * @return void
      */
-    public function __construct($content = '')
+    public function __construct(string $content = '')
     {
         $this->content = $content;
         $this->recipientTimezone = false;
@@ -55,7 +55,7 @@ class PushwooshMessage implements JsonSerializable
      * @param string $campaign
      * @return $this
      */
-    public function campaign($campaign)
+    public function campaign(string $campaign)
     {
         $this->campaign = $campaign;
 
@@ -69,7 +69,7 @@ class PushwooshMessage implements JsonSerializable
      * @param string|null $language
      * @return $this
      */
-    public function content($content, $language = null)
+    public function content(string $content, string $language = null)
     {
         if ($language) {
             if (!is_array($this->content)) {
@@ -114,7 +114,7 @@ class PushwooshMessage implements JsonSerializable
      * @param string $identifier
      * @return $this
      */
-    public function identifier($identifier)
+    public function identifier(string $identifier)
     {
         $this->identifier = $identifier;
 
@@ -154,7 +154,7 @@ class PushwooshMessage implements JsonSerializable
      * @param string $preset
      * @return $this
      */
-    public function preset($preset)
+    public function preset(string $preset)
     {
         $this->preset = $preset;
 
@@ -167,7 +167,7 @@ class PushwooshMessage implements JsonSerializable
      * @param int $limit
      * @return $this
      */
-    public function throttle($limit)
+    public function throttle(int $limit)
     {
         $this->throughput = max(100, min($limit, 1000));
 
@@ -181,7 +181,7 @@ class PushwooshMessage implements JsonSerializable
      * @param bool $shorten
      * @return $this
      */
-    public function url($url, $shorten = true)
+    public function url(string $url, bool $shorten = true)
     {
         $this->shortenUrl = $shorten;
         $this->url = $url;

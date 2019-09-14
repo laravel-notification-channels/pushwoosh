@@ -20,7 +20,7 @@ class Pushwoosh
      * @param string $token
      * @return void
      */
-    public function __construct(ClientInterface $client, $application, $token)
+    public function __construct(ClientInterface $client, string $application, string $token)
     {
         $this->application = $application;
         $this->client = $client;

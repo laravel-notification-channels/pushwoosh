@@ -3,6 +3,7 @@
 namespace NotificationChannels\Pushwoosh;
 
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Arr;
 
 class PushwooshChannel
 {
@@ -38,8 +39,7 @@ class PushwooshChannel
      */
     protected function parseRecipients($recipients)
     {
-        return (new PushwooshRecipient)
-            ->device(is_array($recipients) ? $recipients : func_get_args());
+        return (new PushwooshRecipient)->device(...Arr::wrap($recipients));
     }
 
     /**
