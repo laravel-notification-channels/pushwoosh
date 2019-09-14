@@ -6,7 +6,6 @@ use DateTimeInterface;
 use DateTimeZone;
 use Illuminate\Notifications\Notification;
 use JsonSerializable;
-use stdClass;
 
 class PushwooshMessage implements JsonSerializable
 {
@@ -128,23 +127,21 @@ class PushwooshMessage implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        $missing = new stdClass();
-
         $payload = [
-            'campaign' => $this->campaign ?: $missing,
+            'campaign' => $this->campaign,
             'content' => $this->content,
             'ignore_user_timezone' => !$this->recipientTimezone,
-            'link' => $this->url ?: $missing,
-            'minimize_link' => $this->url ? $this->shortenUrl : $missing,
-            'preset' => $this->preset ?: $missing,
+            'link' => $this->url,
+            'minimize_link' => $this->url ? $this->shortenUrl : null,
+            'preset' => $this->preset,
             'send_date' => $this->when,
-            'send_rate' => $this->throughput ?: $missing,
-            'transactionId' => $this->identifier ?: $missing,
-            'timezone' => $this->timezone ?: $missing,
+            'send_rate' => $this->throughput,
+            'transactionId' => $this->identifier,
+            'timezone' => $this->timezone,
         ];
 
-        return array_filter($payload, function ($value) use ($missing) {
-            return $value !== $missing;
+        return array_filter($payload, function ($value) {
+            return $value !== null;
         });
     }
 
