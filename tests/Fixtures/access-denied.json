@@ -1,0 +1,7 @@
+{
+    "status_code": 210,
+    "status_message": "Access denied or application not found",
+    "response": {
+        "Messages": []
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "name": "laravel-notification-channels/pushwoosh",
+    "description": "Pushwoosh notification channel for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Choraimy Kroonstuiver",
+            "email": "choraimy@live.nl",
+            "homepage": "https://github.com/axlon",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/psr7": "^1.0",
+        "illuminate/notifications": "^5.5 || ^6.0",
+        "illuminate/support": "^5.5 || ^6.0"
+    },
+    "require-dev": {
+        "illuminate/database": "^5.5 || ^6.0",
+        "illuminate/queue": "^5.5 || ^6.0",
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "^6.0 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NotificationChannels\\Pushwoosh\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NotificationChannels\\Pushwoosh\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NotificationChannels\\Pushwoosh\\PushwooshServiceProvider"
+            ]
+        }
+    }
+}
