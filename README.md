@@ -6,7 +6,6 @@ This package makes sending notifications using [Pushwoosh](https://www.pushwoosh
 ## Contents
 - [Requirements](#requirements)
 - [Installation](#installation)
-    - [Laravel 5.1 and 5.2](#laravel-51-and-52)
 - [Usage](#usage)
     - [Routing notifications](#routing-notifications)
     - [Sending notifications](#sending-notifications)
@@ -20,8 +19,8 @@ This package makes sending notifications using [Pushwoosh](https://www.pushwoosh
 
 ## Requirements
 This make use of this package you need:
-- Laravel 5.1 or higher
-- PHP 5.6 or higher
+- Laravel 5.5 or higher
+- PHP 7.0 or higher
 - An active Pushwoosh subscription
 
 ## Installation
@@ -42,21 +41,6 @@ Next, add the following lines to your `config/services.php`:
 
 You can now add the `PUSHWOOSH_APP_CODE` (found [here](https://go.pushwoosh.com/v2/applications)) and the
 `PUSHWOOSH_TOKEN` (found [here](https://go.pushwoosh.com/v2/api_access)) to your environment file.
-
-If you are using Laravel 5.5 or higher you are now done, continue to the [usage](#usage) section. If not, add the
-following line to your `config/app.php`:
-
-```php
-'providers' => [
-    ...
-    NotificationChannels\Pushwoosh\PushwooshServiceProvider::class,
-    ...
-],
-```
-
-### Laravel 5.1 and 5.2
-Laravel 5.1 and 5.2 did not include a notification system so you will have to install the
-[backport](https://github.com/laravel-notification-channels/backport) to make this package work on those versions.
 
 ## Usage
 Using this package, you can use Pushwoosh just like any other notification channel within Laravel. For more information
