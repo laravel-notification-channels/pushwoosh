@@ -1,5 +1,22 @@
 # Pushwoosh notification channel for Laravel
-**TODO** - Add integration badges here once package is moved
+
+<p align="center">
+    <a href="https://travis-ci.org/laravel-notification-channels/pushwoosh">
+        <img src="https://travis-ci.org/laravel-notification-channels/pushwoosh.svg?branch=master" alt="Build status">
+    </a>
+    <a href="https://packagist.org/packages/laravel-notification-channels/pushwoosh">
+        <img src="https://poser.pugx.org/laravel-notification-channels/pushwoosh/downloads" alt="Downloads">
+    </a>
+    <a href="https://packagist.org/packages/laravel-notification-channels/pushwoosh">
+        <img src="https://poser.pugx.org/laravel-notification-channels/pushwoosh/v/stable" alt="Latest release">
+    </a>
+    <a href="https://scrutinizer-ci.com/g/laravel-notification-channels/pushwoosh/">
+        <img src="https://scrutinizer-ci.com/g/laravel-notification-channels/pushwoosh/badges/coverage.png?b=master" alt="Code coverage">
+    </a>
+    <a href="LICENSE.md">
+        <img src="https://poser.pugx.org/laravel-notification-channels/pushwoosh/license" alt="License">
+    </a>
+</p>
 
 This package makes sending notifications using [Pushwoosh](https://www.pushwoosh.com/) a breeze.
 
@@ -138,9 +155,6 @@ Please see the [changelog](CHANGELOG.md) for more information on what has change
 ``` bash
 composer test
 ```
-
-## Security
-If you discover any security related issues, please email choraimy@live.nl instead of using the issue tracker.
 
 ## Contributing
 If you want to contribute to this package, take a look at the [contribution guide](CONTRIBUTING.md).
