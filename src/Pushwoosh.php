@@ -5,6 +5,8 @@ namespace NotificationChannels\Pushwoosh;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
+use NotificationChannels\Pushwoosh\Exceptions\UnknownDeviceException;
 
 class Pushwoosh
 {
@@ -52,7 +54,7 @@ class Pushwoosh
         }
 
         if (isset($response->response->UnknownDevices)) {
-            throw PushwooshException::unknownDevices($response);
+            throw new UnknownDeviceException($response->response->UnknownDevices);
         }
 
         $message->wasSent();

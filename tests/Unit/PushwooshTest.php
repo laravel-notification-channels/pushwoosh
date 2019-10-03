@@ -6,8 +6,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Str;
 use Mockery;
+use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
+use NotificationChannels\Pushwoosh\Exceptions\UnknownDeviceException;
 use NotificationChannels\Pushwoosh\Pushwoosh;
-use NotificationChannels\Pushwoosh\PushwooshException;
 use NotificationChannels\Pushwoosh\PushwooshPendingMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -80,8 +81,8 @@ class PushwooshTest extends TestCase
             new Response(200, [], file_get_contents(__DIR__ . '/../Fixtures/unknown-devices.json'))
         );
 
-        $this->expectException(PushwooshException::class);
-        $this->expectExceptionMessage('Unknown device(s) mentioned: foo, bar');
+        $this->expectException(UnknownDeviceException::class);
+        $this->expectExceptionMessage('Unknown device(s) referenced: foo, bar');
 
         $this->pushwoosh->createMessage(
             new PushwooshPendingMessage($this->pushwoosh)
