@@ -45,7 +45,7 @@ class PushwooshTest extends TestCase
         );
 
         $this->expectException(PushwooshException::class);
-        $this->expectExceptionMessage('Pushwoosh API error: Access denied or application not found');
+        $this->expectExceptionMessage('Access denied or application not found');
 
         $this->pushwoosh->createMessage(
             new PushwooshPendingMessage($this->pushwoosh)

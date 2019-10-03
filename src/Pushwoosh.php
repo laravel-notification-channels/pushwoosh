@@ -44,13 +44,13 @@ class Pushwoosh
         try {
             $response = $this->client->send($request);
         } catch (GuzzleException $exception) {
-            throw PushwooshException::failedTransmission($exception);
+            throw new PushwooshException('Failed to create message(s)', 0, $exception);
         }
 
         $response = \GuzzleHttp\json_decode($response->getBody()->getContents());
 
         if (isset($response->status_code) && $response->status_code !== 200) {
-            throw PushwooshException::apiError($response);
+            throw new PushwooshException($response->status_message);
         }
 
         if (isset($response->response->UnknownDevices)) {
