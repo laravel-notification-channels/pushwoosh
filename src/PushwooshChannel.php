@@ -59,7 +59,7 @@ class PushwooshChannel
         }
 
         if (!$message instanceof PushwooshMessage) {
-            $message = $this->parseMessage($message);
+            $message = $this->parseMessage($message)->associate($notification);
         }
 
         if (!$recipients instanceof PushwooshRecipient) {

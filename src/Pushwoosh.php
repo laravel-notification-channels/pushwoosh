@@ -58,7 +58,10 @@ class Pushwoosh
         $message->wasSent();
 
         if (isset($response->response->Messages)) {
-            return $response->response->Messages;
+            # Pushwoosh will not assign IDs to messages sent to less than 10 unique devices
+            return array_map(function (string $identifier) {
+                return $identifier !== 'CODE_NOT_AVAILABLE' ? $identifier : null;
+            }, $response->response->Messages);
         }
 
         return [];
