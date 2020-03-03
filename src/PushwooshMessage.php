@@ -5,13 +5,16 @@ namespace NotificationChannels\Pushwoosh;
 use DateTimeInterface;
 use DateTimeZone;
 use Illuminate\Notifications\Notification;
+use InvalidArgumentException;
 use JsonSerializable;
 
 class PushwooshMessage implements JsonSerializable
 {
+    protected $androidRootParameters;
     protected $campaign;
     protected $content;
     protected $identifier;
+    protected $iosRootParameters;
     protected $preset;
     protected $recipientTimezone;
     protected $shortenUrl;
@@ -128,9 +131,11 @@ class PushwooshMessage implements JsonSerializable
     public function jsonSerialize()
     {
         $payload = [
+            'android_root_params' => $this->androidRootParameters,
             'campaign' => $this->campaign,
             'content' => $this->content,
             'ignore_user_timezone' => !$this->recipientTimezone,
+            'ios_root_params' => $this->iosRootParameters,
             'link' => $this->url,
             'minimize_link' => $this->url ? $this->shortenUrl : null,
             'preset' => $this->preset,
@@ -182,6 +187,31 @@ class PushwooshMessage implements JsonSerializable
     {
         $this->shortenUrl = $shorten;
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Add a root level parameter.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param string|null $platform
+     * @return $this
+     */
+    public function with(string $key, $value, string $platform = null)
+    {
+        if (!in_array($platform, [null, 'ios', 'android'])) {
+            throw new InvalidArgumentException("Invalid platform {$platform}");
+        }
+
+        if (($platform ?: 'android') === 'android') {
+            $this->androidRootParameters[$key] = $value;
+        }
+
+        if (($platform ?: 'ios') === 'ios') {
+            $this->iosRootParameters[$key] = $value;
+        }
 
         return $this;
     }
