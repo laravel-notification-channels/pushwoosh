@@ -152,6 +152,61 @@ class PushwooshMessageTest extends TestCase
     }
 
     /**
+     * Test modification of the root parameters.
+     *
+     * @return void
+     */
+    public function testRootParameterModification()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $this->assertArrayNotHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('ios_root_params', $message->jsonSerialize());
+
+        $message->with('foo', 'bar');
+
+        $this->assertArrayHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['android_root_params']);
+        $this->assertArrayHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['ios_root_params']);
+    }
+
+    /**
+     * Test modification of the root parameters (Android only).
+     *
+     * @return void
+     */
+    public function testRootParameterModificationAndroid()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $message->with('foo', 'bar', 'android');
+
+        $this->assertArrayHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['android_root_params']);
+    }
+
+    /**
+     * Test modification of the root parameters (iOS only).
+     *
+     * @return void
+     */
+    public function testRootParameterModificationIos()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $message->with('foo', 'bar', 'ios');
+
+        $this->assertArrayNotHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['ios_root_params']);
+    }
+
+    /**
      * Test modification of rollout throughput.
      *
      * @return void
