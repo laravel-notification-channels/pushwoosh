@@ -1,38 +1,22 @@
 language: php
+os: linux
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-
-env:
-  - ILLUMINATE_VERSION=5.5.*
-  - ILLUMINATE_VERSION=5.6.*
-  - ILLUMINATE_VERSION=5.7.*
-  - ILLUMINATE_VERSION=5.8.*
-  - ILLUMINATE_VERSION=6.*
-
-matrix:
-  exclude:
-      # Laravel 5.6+ does not support PHP 7.0
-    - php: 7.0
-      env: ILLUMINATE_VERSION=5.6.*
-    - php: 7.0
-      env: ILLUMINATE_VERSION=5.7.*
-    - php: 7.0
-      env: ILLUMINATE_VERSION=5.8.*
-    - php: 7.0
-      env: ILLUMINATE_VERSION=6.*
-      # Laravel 6 does not support PHP 7.1
+jobs:
+  include:
     - php: 7.1
+      env: ILLUMINATE_VERSION=5.5.*
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.6.*
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.7.*
+    - php: 7.1
+      env: ILLUMINATE_VERSION=5.8.*
+    - php: 7.2
       env: ILLUMINATE_VERSION=6.*
-
-sudo: false
 
 before_install:
   - composer require illuminate/notifications:"${ILLUMINATE_VERSION}" illuminate/support:"${ILLUMINATE_VERSION}" --no-update
