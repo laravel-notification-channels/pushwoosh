@@ -32,9 +32,9 @@ class PushwooshMessageTest extends TestCase
     {
         $payload = (new PushwooshMessage)->jsonSerialize();
 
-        $this->assertInternalType('array', $payload);
+        $this->assertIsArray($payload);
         $this->assertArrayHasKey('content', $payload);
-        $this->assertInternalType('string', $payload['content']);
+        $this->assertIsString($payload['content']);
         $this->assertArrayHasKey('ignore_user_timezone', $payload);
         $this->assertTrue($payload['ignore_user_timezone']);
         $this->assertArrayHasKey('send_date', $payload);
@@ -149,6 +149,61 @@ class PushwooshMessageTest extends TestCase
         $message->preset('foo');
         $this->assertArrayHasKey('preset', $message->jsonSerialize());
         $this->assertEquals('foo', $message->jsonSerialize()['preset']);
+    }
+
+    /**
+     * Test modification of the root parameters.
+     *
+     * @return void
+     */
+    public function testRootParameterModification()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $this->assertArrayNotHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('ios_root_params', $message->jsonSerialize());
+
+        $message->with('foo', 'bar');
+
+        $this->assertArrayHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['android_root_params']);
+        $this->assertArrayHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['ios_root_params']);
+    }
+
+    /**
+     * Test modification of the root parameters (Android only).
+     *
+     * @return void
+     */
+    public function testRootParameterModificationAndroid()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $message->with('foo', 'bar', 'android');
+
+        $this->assertArrayHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['android_root_params']);
+    }
+
+    /**
+     * Test modification of the root parameters (iOS only).
+     *
+     * @return void
+     */
+    public function testRootParameterModificationIos()
+    {
+        $message = new PushwooshMessage();
+        $params = ['foo' => 'bar'];
+
+        $message->with('foo', 'bar', 'ios');
+
+        $this->assertArrayNotHasKey('android_root_params', $message->jsonSerialize());
+        $this->assertArrayHasKey('ios_root_params', $message->jsonSerialize());
+        $this->assertEquals($params, $message->jsonSerialize()['ios_root_params']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace NotificationChannels\Pushwoosh\Tests\Unit;
 
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use NotificationChannels\Pushwoosh\Pushwoosh;
 use NotificationChannels\Pushwoosh\PushwooshMessage;
 use NotificationChannels\Pushwoosh\PushwooshPendingMessage;
@@ -10,6 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 class PushwooshPendingMessageTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var \Mockery\MockInterface|\NotificationChannels\Pushwoosh\Pushwoosh
      */
@@ -24,18 +27,9 @@ class PushwooshPendingMessageTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function tearDown()
-    {
-        Mockery::close();
-    }
-
-    /**
      * Test if the createMessage API call is made when a pending message is destroyed.
      *
      * @return void
-     * @doesNotPerformAssertions
      */
     public function testDispatchUponDestruction()
     {
@@ -51,7 +45,6 @@ class PushwooshPendingMessageTest extends TestCase
      * Test if no createMessage API call is made when an empty pending message is destroyed.
      *
      * @return void
-     * @doesNotPerformAssertions
      */
     public function testNoDispatchIfQueueIsEmpty()
     {

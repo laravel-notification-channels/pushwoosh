@@ -123,6 +123,7 @@ Method                           | Description
 `throttle($limit)`               | Throttle the rollout (100-1000 pushes per second)
 `url($url[, $shorten])`          | Set the URL the message should link to
 `useRecipientTimezone()`         | Respect the recipients' timezone when delivering the message
+`with($key, $value[, $platform])`| Add a root level parameter.
 
 #### PushwooshRecipient
 Below is a list of available methods on the `PushwooshRecipient` class.
