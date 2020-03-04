@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use NotificationChannels\Pushwoosh\Pushwoosh;
 use NotificationChannels\Pushwoosh\PushwooshChannel;
 use NotificationChannels\Pushwoosh\PushwooshPendingMessage;
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 class PushwooshChannelTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var \Illuminate\Notifications\RoutesNotifications|\Mockery\MockInterface
      */
@@ -50,18 +53,9 @@ class PushwooshChannelTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function tearDown()
-    {
-        Mockery::close();
-    }
-
-    /**
      * Test if the channel message is dispatched properly.
      *
      * @return void
-     * @doesNotPerformAssertions
      */
     public function testSend()
     {
@@ -92,7 +86,6 @@ class PushwooshChannelTest extends TestCase
      * Test if the channel stops when the notification returns an empty message.
      *
      * @return void
-     * @doesNotPerformAssertions
      */
     public function testEmptyMessage()
     {
@@ -116,7 +109,6 @@ class PushwooshChannelTest extends TestCase
      * Test if the channel stops when the notifiable returns no route.
      *
      * @return void
-     * @doesNotPerformAssertions
      */
     public function testEmptyRecipient()
     {

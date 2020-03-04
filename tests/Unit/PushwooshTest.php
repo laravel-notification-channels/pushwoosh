@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Str;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
 use NotificationChannels\Pushwoosh\Exceptions\UnknownDeviceException;
 use NotificationChannels\Pushwoosh\Pushwoosh;
@@ -14,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 class PushwooshTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var \GuzzleHttp\ClientInterface|\Mockery\MockInterface
      */

@@ -32,9 +32,9 @@ class PushwooshMessageTest extends TestCase
     {
         $payload = (new PushwooshMessage)->jsonSerialize();
 
-        $this->assertInternalType('array', $payload);
+        $this->assertIsArray($payload);
         $this->assertArrayHasKey('content', $payload);
-        $this->assertInternalType('string', $payload['content']);
+        $this->assertIsString($payload['content']);
         $this->assertArrayHasKey('ignore_user_timezone', $payload);
         $this->assertTrue($payload['ignore_user_timezone']);
         $this->assertArrayHasKey('send_date', $payload);
