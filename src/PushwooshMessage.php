@@ -13,6 +13,7 @@ class PushwooshMessage implements JsonSerializable
     protected $androidRootParameters;
     protected $campaign;
     protected $content;
+    protected $data;
     protected $identifier;
     protected $iosRootParameters;
     protected $preset;
@@ -134,6 +135,7 @@ class PushwooshMessage implements JsonSerializable
             'android_root_params' => $this->androidRootParameters,
             'campaign' => $this->campaign,
             'content' => $this->content,
+            'data' => $this->data,
             'ignore_user_timezone' => !$this->recipientTimezone,
             'ios_root_params' => $this->iosRootParameters,
             'link' => $this->url,
@@ -207,6 +209,7 @@ class PushwooshMessage implements JsonSerializable
 
         if (($platform ?: 'android') === 'android') {
             $this->androidRootParameters[$key] = $value;
+            $this->data[$key] = $value; # android_root_params seems to (not always) work
         }
 
         if (($platform ?: 'ios') === 'ios') {
