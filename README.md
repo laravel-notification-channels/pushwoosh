@@ -37,8 +37,8 @@ This package makes sending notifications using [Pushwoosh](https://www.pushwoosh
 ## Requirements
 This make use of this package you need:
 - Laravel 5.5 or higher
-- PHP 7.0 or higher
-- An active Pushwoosh subscription
+- PHP 7.1 or higher
+- An active Pushwoosh subscription (and use at least one Pushwoosh SDK)
 
 ## Installation
 To install this package run the following command:
@@ -63,6 +63,9 @@ You can now add the `PUSHWOOSH_APP_CODE` (found [here](https://go.pushwoosh.com/
 Using this package, you can use Pushwoosh just like any other notification channel within Laravel. For more information
 about Laravel's notification system, see the [official documentation](https://laravel.com/docs/master/notifications).
 
+Note that before you can start sending pushes you must first register users to your application using one of
+[Pushwoosh's SDKs](https://docs.pushwoosh.com/platform-docs/getting-started/untitled-2).
+
 ### Routing notifications
 In order for Pushwoosh to know to what devices it needs to send to, you will need to add the
 `routeNotificationForPushwoosh` to your notifiable model(s), for example:
@@ -74,6 +77,8 @@ class Customer extends Model
     
     public function routeNotificationForPushwoosh()
     {
+        // In this example 'device_id' is a token previously
+        // retrieved from Pushwoosh using one of their SDKs
         return (new PushwooshRecipient)->device($this->device_id);
     }
 }
@@ -104,8 +109,18 @@ class WishlistItemOnSale extends Notification
 }
 ```
 
-The `toPushwoosh` method may return a string or an instance of the `PushwooshMessage` class, for more information on the
-`PushwooshMessage` class refer to the [available methods](#pushwooshmessage) section.
+> The `toPushwoosh` method may return a string or an instance of the `PushwooshMessage` class, for more information on
+the `PushwooshMessage` class refer to the [available methods](#pushwooshmessage) section.
+
+You can then send a push to one user:
+```php
+$customer->notify(new WishlistItemOnSale($product));
+```
+
+Or to multiple users:
+```php
+Notification::send($customers, new WishlistItemOnSale($product));
+```
 
 ### Available methods
 This section details the public API of this package.
