@@ -3,13 +3,17 @@
 namespace NotificationChannels\Pushwoosh;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
+use function GuzzleHttp\json_decode;
 use GuzzleHttp\Psr7\Request;
+use NotificationChannels\Pushwoosh\Concerns\DetectsPushwooshErrors;
 use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
 use NotificationChannels\Pushwoosh\Exceptions\UnknownDeviceException;
+use Throwable;
 
 class Pushwoosh
 {
+    use DetectsPushwooshErrors;
+
     protected $application;
     protected $client;
     protected $token;
@@ -43,11 +47,11 @@ class Pushwoosh
 
         try {
             $response = $this->client->send($request);
-        } catch (GuzzleException $exception) {
-            throw new PushwooshException('Failed to create message(s)', 0, $exception);
+        } catch (Throwable $e) {
+            $response = $this->tryAgainIfCausedByPushwooshServerError($request, $e);
         }
 
-        $response = \GuzzleHttp\json_decode($response->getBody()->getContents());
+        $response = json_decode($response->getBody()->getContents());
 
         if (isset($response->status_code) && $response->status_code !== 200) {
             throw new PushwooshException($response->status_message);
@@ -98,5 +102,25 @@ class Pushwoosh
     public function send(PushwooshMessage $message)
     {
         return (new PushwooshPendingMessage($this))->queue($message);
+    }
+
+    /**
+     * Handle a Pushwoosh communication error.
+     *
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @param \Throwable $e
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function tryAgainIfCausedByPushwooshServerError(Request $request, Throwable $e)
+    {
+        if ($this->causedByPushwooshServerError($e)) {
+            try {
+                return $this->client->send($request);
+            } catch (Throwable $e) {
+                // Do nothing...
+            }
+        }
+
+        throw new PushwooshException('Failed to create message(s)', 0, $e);
     }
 }
