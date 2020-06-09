@@ -20,6 +20,7 @@ class PushwooshMessage implements JsonSerializable
     protected $recipientTimezone;
     protected $shortenUrl;
     protected $timezone;
+    protected $title;
     protected $throughput;
     protected $url;
     protected $when;
@@ -134,13 +135,17 @@ class PushwooshMessage implements JsonSerializable
         $payload = [
             'android_root_params' => $this->androidRootParameters,
             'campaign' => $this->campaign,
+            'chrome_title' => $this->title,
             'content' => $this->content,
             'data' => $this->data,
+            'firefox_title' => $this->title,
             'ignore_user_timezone' => !$this->recipientTimezone,
             'ios_root_params' => $this->iosRootParameters,
+            'ios_title' => $this->title,
             'link' => $this->url,
             'minimize_link' => $this->url ? $this->shortenUrl : null,
             'preset' => $this->preset,
+            'safari_title' => $this->title,
             'send_date' => $this->when,
             'send_rate' => $this->throughput,
             'transactionId' => $this->identifier,
@@ -161,6 +166,19 @@ class PushwooshMessage implements JsonSerializable
     public function preset(string $preset)
     {
         $this->preset = $preset;
+
+        return $this;
+    }
+
+    /**
+     * Set the message title (only supported on Chrome, Firefox, iOS and Safari).
+     *
+     * @param string|null $title
+     * @return $this
+     */
+    public function title(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
