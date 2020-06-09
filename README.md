@@ -136,6 +136,7 @@ Method                           | Description
 `identifier($identifier)`        | Set the Pushwoosh unique identifier (defaults to the notification ID)
 `preset($preset)`                | Set the Pushwoosh preset code
 `throttle($limit)`               | Throttle the rollout (100-1000 pushes per second)
+`title($title)`                  | Set the message title (only on Chrome, Firefox, iOS and Safari)
 `url($url[, $shorten])`          | Set the URL the message should link to
 `useRecipientTimezone()`         | Respect the recipients' timezone when delivering the message
 `with($key, $value[, $platform])`| Add a root level parameter.
