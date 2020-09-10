@@ -44,7 +44,7 @@ class PushwooshChannelTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->channel = new PushwooshChannel($this->pushwoosh = Mockery::mock(Pushwoosh::class));
         $this->notifiable = Mockery::mock(Model::class);
