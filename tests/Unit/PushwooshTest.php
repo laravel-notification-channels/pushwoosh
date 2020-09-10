@@ -30,7 +30,7 @@ class PushwooshTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = Mockery::mock(Client::class);
         $this->pushwoosh = new Pushwoosh($this->client, Str::random(8), Str::random(24));

@@ -21,7 +21,7 @@ class PushwooshPendingMessageTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pushwoosh = Mockery::mock(Pushwoosh::class);
     }
