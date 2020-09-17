@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-notification-channels/pushwoosh` will be documented in this file
 
+## 2.2.0 - (2020-09-17)
+- Allow pushwoosh to be disabled on local environments via `config('services.pushwoosh.enabled')`
+
 ## 2.1.0 - (2020-06-09)
 - Added support for setting message titles on supported platforms [#12](https://github.com/laravel-notification-channels/pushwoosh/pull/12)
 

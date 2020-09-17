@@ -25,7 +25,8 @@ class PushwooshServiceProvider extends ServiceProvider
             return new Pushwoosh(
                 new Client(),
                 $app['config']['services.pushwoosh.application'],
-                $app['config']['services.pushwoosh.token']
+                $app['config']['services.pushwoosh.token'],
+                $app['config']['services.pushwoosh.enabled'] ?? true
             );
         });
     }

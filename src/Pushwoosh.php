@@ -4,6 +4,7 @@ namespace NotificationChannels\Pushwoosh;
 
 use GuzzleHttp\ClientInterface;
 use function GuzzleHttp\json_decode;
+use function GuzzleHttp\json_encode;
 use GuzzleHttp\Psr7\Request;
 use NotificationChannels\Pushwoosh\Concerns\DetectsPushwooshErrors;
 use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
@@ -16,20 +17,23 @@ class Pushwoosh
 
     protected $application;
     protected $client;
+    protected $enabled;
     protected $token;
 
     /**
      * Create a new Pushwoosh API client.
      *
      * @param \GuzzleHttp\ClientInterface $client
-     * @param string $application
-     * @param string $token
+     * @param string|null $application
+     * @param string|null $token
+     * @param bool $enabled
      * @return void
      */
-    public function __construct(ClientInterface $client, string $application, string $token)
+    public function __construct(ClientInterface $client, ?string $application, ?string $token, bool $enabled = true)
     {
         $this->application = $application;
         $this->client = $client;
+        $this->enabled = $enabled;
         $this->token = $token;
     }
 
@@ -41,8 +45,12 @@ class Pushwoosh
      */
     public function createMessage(PushwooshPendingMessage $message)
     {
+        if (!$this->enabled) {
+            return [];
+        }
+
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        $payload = \GuzzleHttp\json_encode(['request' => $message]);
+        $payload = json_encode(['request' => $message]);
         $request = new Request('POST', 'https://cp.pushwoosh.com/json/1.3/createMessage', $headers, $payload);
 
         try {
