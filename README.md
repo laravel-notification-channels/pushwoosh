@@ -122,6 +122,21 @@ Or to multiple users:
 Notification::send($customers, new WishlistItemOnSale($product));
 ```
 
+#### Unknown devices
+When you reference devices that do not exist (anymore), a `NotificationChannels\Pushwoosh\Events\UnknownDevices` event
+will be dispatched.
+
+You can easily hook into this event like so:
+
+```php
+Event::listen(
+    NotificationChannels\Pushwoosh\Events\UnknownDevices::class,
+    function ($event) {
+        // Handle the event
+    }
+);
+```
+
 ### Available methods
 This section details the public API of this package.
 

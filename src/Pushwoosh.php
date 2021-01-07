@@ -6,9 +6,10 @@ use GuzzleHttp\ClientInterface;
 use function GuzzleHttp\json_decode;
 use function GuzzleHttp\json_encode;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Contracts\Events\Dispatcher;
 use NotificationChannels\Pushwoosh\Concerns\DetectsPushwooshErrors;
+use NotificationChannels\Pushwoosh\Events\UnknownDevices;
 use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
-use NotificationChannels\Pushwoosh\Exceptions\UnknownDeviceException;
 use Throwable;
 
 class Pushwoosh
@@ -17,6 +18,7 @@ class Pushwoosh
 
     protected $application;
     protected $client;
+    protected $dispatcher;
     protected $enabled;
     protected $token;
 
@@ -24,15 +26,17 @@ class Pushwoosh
      * Create a new Pushwoosh API client.
      *
      * @param \GuzzleHttp\ClientInterface $client
+     * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
      * @param string|null $application
      * @param string|null $token
      * @param bool $enabled
      * @return void
      */
-    public function __construct(ClientInterface $client, ?string $application, ?string $token, bool $enabled = true)
+    public function __construct(ClientInterface $client, Dispatcher $dispatcher, ?string $application, ?string $token, bool $enabled = true)
     {
         $this->application = $application;
         $this->client = $client;
+        $this->dispatcher = $dispatcher;
         $this->enabled = $enabled;
         $this->token = $token;
     }
@@ -66,7 +70,9 @@ class Pushwoosh
         }
 
         if (isset($response->response->UnknownDevices)) {
-            throw new UnknownDeviceException($response->response->UnknownDevices);
+            foreach ($response->response->UnknownDevices as $identifier => $devices) {
+                $this->dispatcher->dispatch(new UnknownDevices($identifier, $devices));
+            }
         }
 
         $message->wasSent();

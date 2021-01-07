@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-notification-channels/pushwoosh` will be documented in this file
 
+## 3.0.0
+- Removed `UnknownDevicesException`, a `UnknownDevices` event is now dispatched instead
+
 ## 2.3.0 - (2020-09-17)
 - Allow pushwoosh to be disabled on local environments via `config('services.pushwoosh.enabled')`
 

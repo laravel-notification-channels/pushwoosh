@@ -3,6 +3,7 @@
 namespace NotificationChannels\Pushwoosh;
 
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +14,7 @@ class PushwooshServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->afterResolving(ChannelManager::class, function (ChannelManager $channels) {
             $channels->extend('pushwoosh', function ($app) {
@@ -21,9 +22,10 @@ class PushwooshServiceProvider extends ServiceProvider
             });
         });
 
-        $this->app->bindIf(Pushwoosh::class, function ($app) {
+        $this->app->bindIf(Pushwoosh::class, function (Application $app) {
             return new Pushwoosh(
-                new Client(),
+                $app->make(Client::class),
+                $app['events'],
                 $app['config']['services.pushwoosh.application'],
                 $app['config']['services.pushwoosh.token'],
                 $app['config']['services.pushwoosh.enabled'] ?? true
