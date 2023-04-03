@@ -1,0 +1,37 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  laravel:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        laravel: [ 9.*, 10.* ]
+        php: [ 8.0, 8.1 ]
+        exclude:
+          - laravel: 10.*
+            php: 8.0
+    name: Laravel ${{ matrix.laravel }} on PHP ${{ matrix.php }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: |
+          composer require --dev --no-update laravel/framework:"${{ matrix.laravel }}"
+          composer install --prefer-dist --no-interaction --no-progress
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+      - name: Run tests
+        run: ./vendor/bin/phpunit
+

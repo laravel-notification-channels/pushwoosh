@@ -3,14 +3,14 @@
 namespace NotificationChannels\Pushwoosh;
 
 use GuzzleHttp\ClientInterface;
-use function GuzzleHttp\json_decode;
-use function GuzzleHttp\json_encode;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Events\Dispatcher;
 use NotificationChannels\Pushwoosh\Concerns\DetectsPushwooshErrors;
 use NotificationChannels\Pushwoosh\Events\UnknownDevices;
 use NotificationChannels\Pushwoosh\Exceptions\PushwooshException;
 use Throwable;
+use function GuzzleHttp\json_decode;
+use function GuzzleHttp\json_encode;
 
 class Pushwoosh
 {
