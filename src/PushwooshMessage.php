@@ -24,6 +24,8 @@ class PushwooshMessage implements JsonSerializable
     protected $throughput;
     protected $url;
     protected $when;
+    protected $androidSilent = 0;
+    protected $iosSilent = 0;
 
     /**
      * Create a new push message.
@@ -150,6 +152,8 @@ class PushwooshMessage implements JsonSerializable
             'send_rate' => $this->throughput,
             'transactionId' => $this->identifier,
             'timezone' => $this->timezone,
+            'ios_silent' => $this->iosSilent,
+            'android_silent' => $this->androidSilent,
         ];
 
         return array_filter($payload, function ($value) {
@@ -245,6 +249,22 @@ class PushwooshMessage implements JsonSerializable
     public function useRecipientTimezone()
     {
         $this->recipientTimezone = true;
+
+        return $this;
+    }
+
+    /**
+     * Enable or disable silent notifications for both Android and iOS platforms.
+     *
+     * @param bool $silent
+     * @return $this
+     */
+    public function silent(bool $silent = true)
+    {
+        if ($silent) {
+            $this->androidSilent = 1;
+            $this->iosSilent = 1;
+        }
 
         return $this;
     }
