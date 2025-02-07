@@ -24,8 +24,8 @@ class PushwooshMessage implements JsonSerializable
     protected $throughput;
     protected $url;
     protected $when;
-    protected $androidSilent = 0;
-    protected $iosSilent = 0;
+    protected $androidSilent = null;
+    protected $iosSilent = null;
 
     /**
      * Create a new push message.
