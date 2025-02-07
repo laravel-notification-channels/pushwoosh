@@ -271,4 +271,36 @@ class PushwooshMessageTest extends TestCase
         $message = (new PushwooshMessage)->useRecipientTimezone();
         $this->assertFalse($message->jsonSerialize()['ignore_user_timezone']);
     }
+
+    /**
+     * Test modification of the silent parameters .
+     *
+     * @return void
+     */
+    public function testSilentModification()
+    {
+        $message = new PushwooshMessage();
+        $message->silent();
+        $this->assertArrayHasKey('ios_silent', $message->jsonSerialize());
+        $this->assertEquals(1, $message->jsonSerialize()['ios_silent']);
+        $this->assertArrayHasKey('android_silent', $message->jsonSerialize());
+        $this->assertEquals(1, $message->jsonSerialize()['android_silent']);
+    }
+
+    /**
+     * Test modification of the silent parameters .
+     *
+     * @return void
+     */
+    public function testSilentModificationNull()
+    {
+        $message = new PushwooshMessage();
+
+        $this->assertArrayNotHasKey('ios_silent', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('android_silent', $message->jsonSerialize());
+
+        $message->silent()->silent(false);
+        $this->assertArrayNotHasKey('ios_silent', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('android_silent', $message->jsonSerialize());
+    }
 }
