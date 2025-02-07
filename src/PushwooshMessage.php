@@ -259,7 +259,7 @@ class PushwooshMessage implements JsonSerializable
      * @param bool $silent
      * @return $this
      */
-    public function silent(bool $silent = true)
+    public function silent(bool $silent = false)
     {
         if ($silent) {
             $this->androidSilent = 1;
