@@ -280,7 +280,7 @@ class PushwooshMessageTest extends TestCase
     public function testSilentModification()
     {
         $message = new PushwooshMessage();
-        $message->silent(true);
+        $message->silent();
         $this->assertArrayHasKey('ios_silent', $message->jsonSerialize());
         $this->assertEquals(1, $message->jsonSerialize()['ios_silent']);
         $this->assertArrayHasKey('android_silent', $message->jsonSerialize());
@@ -295,7 +295,11 @@ class PushwooshMessageTest extends TestCase
     public function testSilentModificationNull()
     {
         $message = new PushwooshMessage();
-        $message->silent();
+
+        $this->assertArrayNotHasKey('ios_silent', $message->jsonSerialize());
+        $this->assertArrayNotHasKey('android_silent', $message->jsonSerialize());
+
+        $message->silent()->silent(false);
         $this->assertArrayNotHasKey('ios_silent', $message->jsonSerialize());
         $this->assertArrayNotHasKey('android_silent', $message->jsonSerialize());
     }
