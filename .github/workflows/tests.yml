@@ -10,8 +10,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        laravel: [ 9.*, 10.*, 11.*, 12.* ]
-        php: [ 8.0, 8.1, 8.2, 8.3, 8.4 ]
+        laravel: [ 9.*, 10.*, 11.* ]
+        php: [ 8.0, 8.1, 8.2, 8.3 ]
+        include:
+          - laravel 12.*
+            php: 8.3
+          - laravel 12.*
+            php: 8.4
         exclude:
           - laravel: 9.*
             php: 8.2
@@ -22,10 +27,6 @@ jobs:
           - laravel: 11.*
             php: 8.0
           - laravel: 11.*
-            php: 8.1
-          - laravel: 12.*
-            php: 8.0
-          - laravel: 12.*
             php: 8.1
     name: Laravel ${{ matrix.laravel }} on PHP ${{ matrix.php }}
     steps:
@@ -46,4 +47,3 @@ jobs:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
       - name: Run tests
         run: ./vendor/bin/phpunit
-
